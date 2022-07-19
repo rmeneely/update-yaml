@@ -1,0 +1,38 @@
+name: 'Update YAML'
+author: Rick Meneely <rick@meneely.com>
+branding:
+  icon: chevrons-left
+  color: purple
+description: Update YAML file values
+inputs:
+        infile: values.yaml
+        variable: image.tag
+        value: v1.2.3
+
+  infile:
+    description: The YAML file to be updated
+    default: 'values.yaml'
+    required: false
+  variable:
+    description: The variable name
+    default: ''
+    required: false
+  value:
+    description: The new value
+    default: ''
+    required: false
+  varlist:
+    description: Comma eparated list of var=value
+    default: ''
+    required: false
+outputs:
+  updated:
+    description: 'Set to True or False based on if the infile was modified'
+    value: ${{ steps.update-yaml.outputs.updated }}
+runs:
+  using: "composite"
+  steps:
+    - run: update-yaml.py -i ${{ inputs.infile }} -v "${{ inputs.variable }}=${{ inputs.value }}" -V "${{ inputs.varlist }}" > .update-yaml.tmp
+      shell: bash
+    - run: mv .update-yaml.tmp ${{ inputs.infile }}
+      shell: bash
