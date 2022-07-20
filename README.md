@@ -3,7 +3,7 @@ This GitHub Action updates YAML file values
 
 ## Usage
 ```yaml
-    - uses: rmeneely/update-yaml@v0.0.7
+    - uses: rmeneely/update-yaml@v0.0.8
       with:
         # Infile. The YAML file to be read and updated
         # Default: 'values.yaml'
@@ -19,7 +19,7 @@ This GitHub Action updates YAML file values
 ```yaml
     # Sets image tag in values.yaml file
     # Example: 
-    - uses: rmeneely/update-yaml@v0.0.7
+    - uses: rmeneely/update-yaml@v0.0.8
       with:
         infile: values.yaml
         varlist: 'image.tag=v1.2.3'
@@ -28,7 +28,7 @@ This GitHub Action updates YAML file values
 ```yaml
     # Sets appVersion and version in Chart.yaml
     # Example: 
-    - uses: rmeneely/update-yaml@v0.0.7
+    - uses: rmeneely/update-yaml@v0.0.8
       with:
         infile: values.yaml
         varlist: appVersion=v1.2.3,version=4.5.6
@@ -37,7 +37,7 @@ This GitHub Action updates YAML file values
 ```yaml
     # Sets dependency version in Chart.yaml list of dependencies
     # Example: 
-    - uses: rmeneely/update-yaml@v0.0.7
+    - uses: rmeneely/update-yaml@v0.0.8
       with:
         infile: values.yaml
         varlist: dependencies.name.myapp.version=\"1.0.1\"
