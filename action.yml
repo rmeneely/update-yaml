@@ -5,10 +5,6 @@ branding:
   color: purple
 description: Update YAML file values
 inputs:
-        infile: values.yaml
-        variable: image.tag
-        value: v1.2.3
-
   infile:
     description: The YAML file to be updated
     default: 'values.yaml'
