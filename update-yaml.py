@@ -52,10 +52,10 @@ def setValue(context, value):
     global ContextValue
     ContextValue[context] = value
 
-def writeOutputs():
-    global Updated
-    updated = 'true' if Updated else 'false'
-    print("::set-output name=updated::{}".format(updated))
+#def writeOutputs():
+#    global Updated
+#    updated = 'true' if Updated else 'false'
+#    print("::set-output name=updated::{}".format(updated))
 
 def main(argv):
     # Global variables
@@ -146,7 +146,7 @@ def main(argv):
            print(line)
     
     # Write the output values
-    writeOutputs()
+    #writeOutputs()
 
 if __name__ == "__main__":
    main(sys.argv[1:])
