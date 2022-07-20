@@ -9,16 +9,8 @@ inputs:
     description: The YAML file to be updated
     default: 'values.yaml'
     required: false
-  variable:
-    description: The variable name
-    default: ''
-    required: false
-  value:
-    description: The new value
-    default: ''
-    required: false
   varlist:
-    description: Comma eparated list of var=value
+    description: Comma separated list of var=value
     default: ''
     required: false
 outputs:
@@ -28,7 +20,10 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - run: update-yaml.py -i ${{ inputs.infile }} -v "${{ inputs.variable }}=${{ inputs.value }}" -V "${{ inputs.varlist }}" > .update-yaml.tmp
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    - run: ./update-yaml.py -i ${{ inputs.infile }} -V "${{ inputs.varlist }}" > .update-yaml.tmp
       shell: bash
     - run: mv .update-yaml.tmp ${{ inputs.infile }}
       shell: bash
