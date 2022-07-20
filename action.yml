@@ -15,7 +15,7 @@ inputs:
     required: false
 outputs:
   updated:
-    description: 'Set to True or False based on if the infile was modified'
+    description: 'Set to true or false based on if the infile was modified'
     value: ${{ steps.update-yaml.outputs.updated }}
 runs:
   using: "composite"
@@ -25,6 +25,5 @@ runs:
         python-version: '3.9'
     - id: update-yaml
       run: python ${{github.action_path}}/update-yaml.py -i ${{ inputs.infile }} -V "${{ inputs.varlist }}" > .update-yaml.tmp
-      shell: bash
     - run: mv .update-yaml.tmp ${{ inputs.infile }}
       shell: bash

@@ -55,7 +55,8 @@ def setValue(context, value):
 def writeOutputs():
     global Updated
     updated = 'true' if Updated else 'false'
-    print("::set-output name=updated::{}".format(updated))
+    #print("::set-output name=updated::{}".format(updated))
+    print("::set-output name=updated::true")
 
 def main(argv):
     # Global variables
