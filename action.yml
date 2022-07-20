@@ -23,7 +23,8 @@ runs:
     - uses: actions/setup-python@v4
       with:
         python-version: '3.9'
-    - run: python ${{github.action_path}}/update-yaml.py -i ${{ inputs.infile }} -V "${{ inputs.varlist }}" > .update-yaml.tmp
+    - id: update-yaml
+      run: python ${{github.action_path}}/update-yaml.py -i ${{ inputs.infile }} -V "${{ inputs.varlist }}" > .update-yaml.tmp
       shell: bash
     - run: mv .update-yaml.tmp ${{ inputs.infile }}
       shell: bash
