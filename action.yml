@@ -27,9 +27,11 @@ runs:
       shell: bash
     - run: >
         updated=`diff "${{ inputs.infile }}" "${{ github.action_path }}/.update-yaml.tmp" | wc -l | sed -e 's/ //g'` ;
+      shell: bash
     - run: >
         updated=`diff ${{ inputs.infile }} ${{ github.action_path }}/.update-yaml.tmp | wc -l | sed -e 's/ //g'` ;
         if [ $updated = 0 ]; then updated='false' ; else updated='true' ; fi ;
+      shell: bash
     - run: >
         updated=`diff ${{ inputs.infile }} ${{ github.action_path }}/.update-yaml.tmp | wc -l | sed -e 's/ //g'` ;
         if [ ${updated} = 0 ]; then updated='false' ; else updated='true' ; fi ;
