@@ -1,7 +1,7 @@
 name: 'Update YAML'
 author: Rick Meneely <rick@meneely.com>
 branding:
-  icon: chevrons-left
+  icon: edit
   color: purple
 description: Update YAML file values
 inputs:
