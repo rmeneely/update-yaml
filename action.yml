@@ -23,20 +23,20 @@ runs:
     - uses: actions/setup-python@v4
       with:
         python-version: '3.9'
-    - run: python ${{ github.action_path }}/update-yaml.py -i ${{ inputs.infile }} -V "${{ inputs.varlist }}" > ${{ github.action_path }}/.update-yaml.tmp
+    - run: python ${{ github.action_path }}/update-yaml.py -i ${{ inputs.infile }} -V "${{ inputs.varlist }}" > .update-yaml.tmp
       shell: bash
     - run: >
-        updated=$(diff ${{ inputs.infile }} ${{ github.action_path }}/.update-yaml.tmp | wc -l | sed -e 's/ //g') ;
+        diff ${{ inputs.infile }} .update-yaml.tmp | wc -l | sed -e 's/ //g' ;
       shell: bash
     - run: >
-        updated=$(diff ${{ inputs.infile }} ${{ github.action_path }}/.update-yaml.tmp | wc -l | sed -e 's/ //g') ;
+        updated=$(diff ${{ inputs.infile }} .update-yaml.tmp | wc -l | sed -e 's/ //g') ;
         if [ $updated = 0 ]; then updated='false' ; else updated='true' ; fi ;
       shell: bash
     - run: >
-        updated=`diff ${{ inputs.infile }} ${{ github.action_path }}/.update-yaml.tmp | wc -l | sed -e 's/ //g'` ;
+        updated=$(diff ${{ inputs.infile }} .update-yaml.tmp | wc -l | sed -e 's/ //g') ;
         if [ ${updated} = 0 ]; then updated='false' ; else updated='true' ; fi ;
         echo "::set-output name=updated::${updated}"
       shell: bash
       id: update-yaml
-    - run: mv ${{ github.action_path }}/.update-yaml.tmp ${{ inputs.infile }}
+    - run: mv .update-yaml.tmp ${{ inputs.infile }}
       shell: bash
