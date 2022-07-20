@@ -25,9 +25,9 @@ runs:
         python-version: '3.9'
     - run: |
         python ${{ github.action_path }}/update-yaml.py -i ${{ inputs.infile }} -V "${{ inputs.varlist }}" > ${{ github.action_path }}/.update-yaml.tmp
-        updated=`diff "${{ inputs.infile }}" "${{ github.action_path }}/.update-yaml.tmp" | wc -l`
-        if [ "${updated}" = '0' ]; then updated='false' ; else updated='true' ; fi
-        echo "::set-output name=updated::${updated}" 
+        ( updated=`diff "${{ inputs.infile }}" "${{ github.action_path }}/.update-yaml.tmp" | wc -l | sed -e 's/ //g'` ;\
+          if [ "${updated}" = '0' ]; then updated='false' ; else updated='true' ; fi ;\
+          echo "::set-output name=updated::${updated}" )
         mv ${{ github.action_path }}/.update-yaml.tmp ${{ inputs.infile }}
       shell: bash
       id: update-yaml
