@@ -53,6 +53,7 @@ def setValue(context, value):
     ContextValue[context] = value
 
 def writeOutputs():
+    global Updated
     updated = 'true' if Updated else 'false'
     print("::set-output name=updated::{}".format(updated))
 
