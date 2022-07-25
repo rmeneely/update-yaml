@@ -23,10 +23,13 @@ ConditionalContext = {}
 ConditionalValue = {}
 ItemContext = {}
 Updated = False
+Debug = False
 
 def enterContext(contextName, indent):
     global Context
     global ContextLst
+    if Debug:
+       print("enterContext({}, {})".format(contextName, indent))
     ContextLst.append(contextName)
     Context = '.'.join(ContextLst)
     ContextIndent[Context] = indent
@@ -39,6 +42,9 @@ def exitContext():
     if len(ContextLst) > 0:
        ContextLst.pop()
        Context = '.'.join(ContextLst)
+    if Debug:
+       print("exitContext()")
+       print("  exitedContext: {}, Context: {}".format(exitedContext, Context))
     return exitedContext
 
 def get_lhs(theString, delimiter):
@@ -63,24 +69,38 @@ def processListItem(lines, contexts):
     global ConditionalValue
     global ItemContext
 
+    if Debug:
+       print("ENTER processListItem()")
     while (len(lines) > 0):
       line = lines.pop(0)
       lhs = get_lhs(line, ':')
       rhs = get_rhs(line, ':')
       _lhs = line.split(':')[0] # lhs including indent
       context = contexts.pop(0) # line context
+      if Debug:
+         print("  context: {}".format(context))
       if context in ContextNewValue.keys():
+         if Debug:
+            print("    context is in ContextNewValue.keys()")
          if context in Condition.keys():
             condition = Condition[context]
+            if Debug:
+               print("      context is in Condition.keys()")
+               print("      condition = {}".format(condition))
             if condition in ItemContext.keys():
                lhs = line.split(':')[0]
                line = lhs + ': ' + ContextNewValue[context]
+               if Debug:
+                  print("      condition is in ItemContext.keys()")
+                  print("      line = {}".format(line))
                if rhs != ContextNewValue[context]:
                   Updated = True
       print(line)
     # Reset list item
     InList = False
     ItemContext = {}
+    if Debug:
+       print("EXIT processListItem()")
 
 
 #def writeOutputs():
@@ -162,10 +182,12 @@ def main(argv):
         assignment = assignmentRegex.search(line)
         newContext = contextRegex.search(line)
         list = ListRegex.search(line)
+        if Debug:
+           print("line = {}".format(line))
     
         # Exit contexts
         if not comment:
-           if inList:
+           if inList or list:
              while (len(ContextLst) > 0) and (indent < ContextIndent[Context]):
                exitContext()
                if len(itemLines) > 0: # Process any prior item lines
@@ -178,8 +200,14 @@ def main(argv):
         if comment:
            print(line)
         elif list:
+           if Debug:
+              print("LIST START")
+              print("  line = {}".format(line))
+              print("  len(itemLines) = {}".format(len(itemLines)))
+              print("  Context = {}".format(Context))
            if len(itemLines) > 0: # Process any prior item lines
               processListItem(itemLines, itemLineContexts)
+              print("  Context = {}".format(Context))
            itemLines.append(line)
            inList = True
            _line = line.replace('-',' ')
@@ -189,6 +217,8 @@ def main(argv):
            rhs = get_rhs(theItem, ':')
            contextName = lhs
            Context = enterContext(contextName, indent)
+           if Debug:
+              print("  Context = {}".format(Context))
            itemLineContexts.append(Context)
            ItemContext[Context + '=' + rhs] = True
            setValue(Context, rhs)
