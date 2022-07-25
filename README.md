@@ -39,9 +39,11 @@ This GitHub Action updates YAML file values
     # Example: 
     - uses: rmeneely/update-yaml@v1
       with:
-        infile: values.yaml
-        varlist: dependencies.name.myapp.version=\"1.0.1\"
+        infile: Chart.yaml
+        varlist: dependencies[name=myapp].version=\"1.0.1\"
 ```
+
+This will update the `dependencies.version` value to "1.0.1" where that same list item has `dependencies.name` set to 'myapp'.
 
 
 ## Output
