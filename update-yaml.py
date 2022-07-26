@@ -97,7 +97,7 @@ def processListItem(lines, contexts):
                   Updated = True
       print(line)
     # Reset list item
-    InList = False
+    #InList = False
     ItemContext = {}
     if Debug:
        print("EXIT processListItem()")
@@ -182,8 +182,17 @@ def main(argv):
         assignment = assignmentRegex.search(line)
         newContext = contextRegex.search(line)
         list = ListRegex.search(line)
+        if list:
+           listIndent = indent
+        elif inList and (indent < listIndent) or (indent == 0):
+           inList = False
         if Debug:
            print("line = {}".format(line))
+           print("indent = {}".format(indent))
+           print("inList = {}".format(inList))
+           if inList:
+              print("listIndent = {}".format(listIndent))
+
     
         # Exit contexts
         if not comment:
@@ -192,6 +201,8 @@ def main(argv):
                exitContext()
                if len(itemLines) > 0: # Process any prior item lines
                   processListItem(itemLines, itemLineContexts)
+               if (indent < ContextIndent[Context]):
+                  inList = False
            else:
              while (len(ContextLst) > 0) and (indent <= ContextIndent[Context]):
                exitContext()
@@ -211,7 +222,6 @@ def main(argv):
            itemLines.append(line)
            inList = True
            _line = line.replace('-',' ')
-           listIndent = len(_line) - len(_line.lstrip()) # List indent w/o '-'
            theItem = line.replace('-', '', 1)
            lhs = get_lhs(theItem, ':')
            rhs = get_rhs(theItem, ':')
