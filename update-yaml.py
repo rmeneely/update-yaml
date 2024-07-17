@@ -213,7 +213,8 @@ def main(argv):
               print("  Context = {}".format(Context))
            if len(itemLines) > 0: # Process any prior item lines
               processListItem(itemLines, itemLineContexts)
-              print("  Context = {}".format(Context))
+              if Debug:
+                 print("  Context = {}".format(Context))
            itemLines.append(line)
            inList = True
            _line = line.replace('-',' ')
